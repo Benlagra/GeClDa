@@ -38,15 +38,15 @@ We can classify the raw data, i.e. the data contined in the unzipped folder befo
 
 + **Set 1 : signals**
 
-       This set contains the raw or processed ( by application of filters, Fourier transform ... etc ) signals measured in the time or the frequency domains during the experiment. There are 33 such quantities  like tBodyAcc-XYZ, tGravityAcc-XYZ, fBodyAccJerk-XYZ .. etc.
+       This set contains the raw or processed ( by application of filters, Fourier transform ... etc ) signals measured in the time or the frequency domains during the experiment. There are 33 such quantities  like *tBodyAcc-XYZ, tGravityAcc-XYZ, fBodyAccJerk-XYZ* .. etc.
        
        From these signals, another set of variables has been derived using additional transformations (17 in total) integrating out the time or the frequency variables. This second set is labeled by the transformation that was performed on the signals of set 1 and its elements are called the **features**.
        
 + **Set 2: features**
 
-       For exemple, features containing the pattern mean() are all resulting from an average ove time or frequency of signals in set 1. 
+       For exemple, features containing the pattern *mean()* are all resulting from an average ove time or frequency of signals in set 1. 
        
-So back to what you can do with my code, you can specify a character vector named `patterns` (line 12 of the main script) whose elements are the data you would like to extract. For exemple, `patterns=c('-mean\\(\\)', '-min\\(\\)')` will extract all data in set 2 about the *mean* and the *min* measurements. Similarily, `patterns=c('tBodyAcc')` will extract all the data in set 2 (mean, std, min ... etc) which are related to the signal `tBodyAcc` in set 1.
+So back to what you can do with my code, you can specify a character vector named `patterns` (`line 12` of the main script) whose elements are the data you would like to extract. For exemple, `patterns=c('-mean\\(\\)', '-min\\(\\)')` will extract all data in set 2 about the *mean* and the *min* measurements. Similarily, `patterns=c('tBodyAcc')` will extract all the data in set 2 (mean, std, min ... etc) which are related to the signal `tBodyAcc` in set 1.
 
 With the present version of the code, you can not use a `pattern` with mixed data from set 1 and 2. For exemple `patterns = c('-mean\\(\\)', 'tBodyAcc')` will result in an error.
 
