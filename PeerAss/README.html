@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
+
+<title>Getting and cleaning data project</title>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+   white-space: pre-wrap;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r, code.cpp {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+
+
+<!-- MathJax scripts -->
+<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+</head>
+
+<body>
+<h1>Getting and cleaning data project</h1>
+
+<p>You will find here the required script and codebook for the <a href="https://class.coursera.org/getdata-002/human_grading/view/courses/972080/assessments/3/submissions"><em>Getting and cleaning data course project</em></a>.</p>
+
+<p>The following repository contains:</p>
+
+<ul>
+<li><code>run_analysis.R</code> : the main script performing the analysis of the provided data according to the project requirements.</li>
+<li><code>functions.R</code> : a script containing the functions called in the main script. This keeps the main script short and clean.</li>
+<li><code>Code_book.md</code>: the code book for the data. It describes the raw data as well as the tidy data set.</li>
+<li><code>README.md</code>: this is the file you are reading. It contains essentially information about the main script, the functions in <code>functions.R</code> and how to use them.</li>
+</ul>
+
+<h2>Requirements of the projects</h2>
+
+<p>The main script should do the following</p>
+
+<ol>
+<li>Merges the training and the test sets to create one data set.</li>
+<li>Extracts only the measurements on the mean and standard deviation for each measurement. </li>
+<li>Uses descriptive activity names to name the activities in the data set</li>
+<li>Appropriately labels the data set with descriptive activity names. </li>
+<li>Creates a second, independent tidy data set with the average of each variable for each activity and each subject.</li>
+</ol>
+
+<h2>Requirements to use the scripts</h2>
+
+<p>Make sure that:</p>
+
+<ul>
+<li><code>functions.R</code> and <code>run_script.R</code> stay in the same folder.</li>
+<li>The package <a href="http://cran.r-project.org/package=stringr"><code>stringr</code></a> is installed. A call to this package is included in <code>functions.R</code>.</li>
+<li>Your working directory <em>contains</em> the unzipped data folder named &#39;UCI HAR Dataset&#39;, although I allow the user of the code to specify the location of that folder (<code>line 7</code> of the main script) if it is not in the working directory..</li>
+</ul>
+
+<h2>The main script <code>run_analysis.R</code></h2>
+
+<h3>What you can, and can&#39;t, do with it</h3>
+
+<p>I wrote the script so that I can do more than what was asked in the assignment. In particular, you can extract more than the mean and the standard deviation measurements by changing a single line. In order to clarify this, and the use of what I call a <em><code>pattern</code></em>, let me briefly remind the structure of the raw data.</p>
+
+<p>We can classify the raw data, i.e. the data contined in the unzipped folder before any analysis, into two sets:</p>
+
+<ul>
+<li><p><strong>Set 1 : signals</strong></p>
+
+<p>This set contains the raw or processed ( by application of filters, Fourier transform &hellip; etc ) signals measured in the time or the frequency domains during the experiment. There are 33 such quantities  like tBodyAcc-XYZ, tGravityAcc-XYZ, fBodyAccJerk-XYZ .. etc.</p>
+
+<p>From these signals, another set of variables has been derived using additional transformations (17 in total) integrating out the time or the frequency variables. This second set is labeled by the transformation that was performed on the signals of set 1 and its elements are called the <code>features</code>.</p></li>
+<li><p><strong>Set 2: features</strong></p>
+
+<p>For exemple, features containing the pattern mean() are all resulting from an average ove time or frequency of signals in set 1. </p></li>
+</ul>
+
+<p>So back to what you can do with my code, you can specify a character vector named <code>pattern</code> (line 12 of the main script) whose elements are the data you would like to extract. For exemple, <code>pattern=c(&#39;-mean\\(\\)&#39;, &#39;-min\\(\\)&#39;)</code> will extract all data in set 2 about the <em>mean</em> and the <em>min</em> measurements. Similarily, <code>pattern=c(&#39;tBodyAcc&#39;)</code> will extract all the data in set 2 (mean, std, min &hellip; etc) which are related to the signal <code>tBodyAcc</code> in set 1.</p>
+
+<p>With the present version of the code, you can not use a <code>pattern</code> with mixed data from set 1 and 2. For exemple <code>pattern = c(&#39;-mean\\(\\)&#39;, &#39;tBodyAcc&#39;)</code> will result in an error.</p>
+
+<p>For the purpose of the assignment, I take <code>pattern = c(&#39;&#39;-mean\\(\\)&#39;, &#39;&#39;-std\\(\\)&#39;)</code>. But feel free to play with it yourself.</p>
+
+<h3>How to use it and what to get from it</h3>
+
+<p>If you want to check the tidy data output according to the assignment brief, just run it as it is. If you are curious, you can extract more data than asked in the brief by changing the content of <code>pattern</code>. Then, just continue from <code>line 43</code> and you don&#39;t need to collect and merge the data of the groups again.</p>
+
+<p>The output tidy data set consists of <strong>as many text files in CSV format as there are elements in <code>pattern</code></strong> of the averaged, for each subject and each activity, extracted data. I output thus <strong>two files</strong>, one for the <em>mean</em> variables and one for <em>std</em> variables. I think this is better for clarity even though the two variables are related with each other. </p>
+
+<p>A larger text file is output as well, containing both <em>mean</em> and <em>std</em> variables before the average for each subject and each activity was performed. </p>
+
+<h2>Descriptions and usage of the functions used in <code>run_analysis.R</code></h2>
+
+<p>I wrote the functions in <code>functions.R</code> to tackle each of the individual tasks of the project. My intention was to have a clean main script and to help my peers to follow the required tasks one after the other in blocks.</p>
+
+<p>These functions are : </p>
+
+<ul>
+<li><p><code>get.Data.Directory(directory = &#39;./&#39;)</code></p>
+
+<p>Given a directory, by default or by the user, the function checks that it        contains the unzipped data folder whose unchanged name should be <code>UCI HAR Dataset/</code> and returns its path. The default value of <code>directory</code> is the working directory. If the data folder is not present, the script stops and prints an explicit message.</p></li>
+<li><p><code>get.Features.List(directory = &#39;./UCI HAR Dataset/&#39;)</code></p>
+
+<p>Reads the file <code>features.txt</code> in the data folder and outputs a <code>data.frame</code> with two columns (index, feature) and 561 rows containing all the features&#39; names and their index. This function can be called once after <code>get.Data.Directory()</code></p></li>
+<li><p><code>get.Activity.Names(directory= &#39;./UCI HAR Dataset/&#39;)</code></p>
+
+<p>Reads the file <code>activity_labels.txt</code> in the data folder and returns a <code>data.frame</code> with two columns (index, name) and 6 rows for the six different activities.</p></li>
+<li><p><code>collect.Group.Data(group, directory = &#39;./UCI HAR Dataset/&#39;)</code></p>
+
+<p>Given a group of subjects name <code>group</code> (character) and the path to the data folder (by default <code>&#39;./UCI HAR Dataset/&#39;</code>), the function merges the three files, respectively of the subjects, the activities, and the set of variables, contained in the sub-folder named after the group. The output is a <code>data.frame</code> which contains 3 categorical variables (Subject_id, Group, and Activity) and 561 numerical variables corresponding to all the features. The number of rows depends on the group. Notice that <strong>I choose to keep the information about the group in which the subject belongs, by adding one column</strong>, so that the data between the two groups in the experiment can still be compared from the final tidy data set.</p></li>
+<li><p><code>merge.Groups.Data(directory = &#39;./UCI HAR Dataset/&#39;)</code></p>
+
+<p>Merges the data of groups &#39;train&#39; and &#39;test&#39; after calling the two previous functions as required in the 1st task of the project. This function is actually not used in the present main script. I prefered to use the previous two functions and <code>rbind</code> their outcomes to go step by step.</p></li>
+<li><p><code>get.Relevent.Indices(features, patterns = character(), directory = &#39;./UCI HAR Dataset/&#39;)</code></p>
+
+<p>Given the <code>features</code> data.frame obtained from <code>get.Features.List()</code>, the vector of patterns, and the data folder path, the functions outputs the indices of features whose name partially matches the patterns in <code>list</code>. </p>
+
+<p>Exemple: if you are looking for the mean data, you should enter <code>patterns &lt;- c(&#39;-mean\\(\\)&#39;)</code> since this is the pattern contained in all the mean data features. <code>patterns &lt;- c(&#39;-min\\(\\)&#39;, &#39;-max\\(\\)&#39;)</code> will return the indices of the features corresponding to the <code>min</code> and <code>max</code> data. The double backslash is important whenever your pattern includes the parantheses.</p>
+
+<p>When the pattern is focused on set 2 above, the output of the function is a <code>data.frame</code> with 33 rows (corresponding to the 33 signals), a column <code>Feature</code> for features&#39; names, and as many additional columns as there are matching patterns in <code>patterns</code> (eg. two colums if you are looking for mean and std data). If a single pattern matches no feature&#39;s name, the program stops with an explicit error message.</p></li>
+<li><p><code>extract(data, indices)</code></p>
+
+<p>This function addresses the 2nd task of the brief by choosing <code>paterns &lt;- c(&#39;-min\\(\\)&#39;, &#39;-std\\(\\)&#39;)</code> in the previous function.</p>
+
+<p>Given the <code>data.frame</code> of indices, obtained by using the last function or entered by the user, the function extracts the relevent columns from the large <code>data.frame</code> of the merged data and outputs the corresponding reduced <code>data.frame</code>. This containss 3 categorical columns (Subject_id, Group, Activity) and 33 numerical columns for each pattern looked for in the previous function. Eg: if <code>patterns=c(&#39;-mean\\(\\)&#39;, &#39;-std\\(\\)&#39;)</code>, the data frame output will contain 69 = 3 + 33 + 33 columns.</p>
+
+<p>Notice that if you want to enter the indices yourself without using the previous function, <code>indices</code> should be a <code>data.frame</code> with at least a character column for features&#39; names and an integer column for indices. The function returns only the data for which the index is not <code>NA</code>.</p></li>
+<li><p><code>label.All.Variables(data, data_activity, indices)</code></p>
+
+<p>This function addresses the 3rd and 4th task of the brief.</p>
+
+<p>Given the <code>data</code> obtained from the function <code>extract()</code>, the data.frame <code>data_activity</code> obtained from <code>get.Activity.Names()</code> and the data.frame <code>indices</code> corresponding to the relevent data we are looking for, this function replaces the integer values of the activities and labels all the columns data with descriptive names.  </p></li>
+<li><p><code>subject.activity.means(data)</code></p>
+
+<p>This function addresses the 5th task of the brief.</p>
+
+<p>It calculates the average of each variable for each subject and each activity using the function <code>aggregate</code>, then orders the data set by the subjects id. </p></li>
+<li><p><code>write.Tidy.Data(data, indices)</code></p>
+
+<p>writes the data into separate text files, in CSV format, for different patterns. So if we are looking for the mean and std data, the output of the function is two text files, one for the mean data and another for the std data.</p>
+
+<p>Numerical values are rounded to 4 digits for the clarity of the text file.</p></li>
+</ul>
+
+</body>
+
+</html>
+
