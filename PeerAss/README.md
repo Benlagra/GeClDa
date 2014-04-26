@@ -56,7 +56,7 @@ For the purpose of the assignment, I take `pattern = c(''-mean\\(\\)', ''-std\\(
 
 If you want to check the tidy data output according to the assignment brief, just run it as it is. If you are curious, you can extract more data than asked in the brief by changing the content of `pattern`. Then, just continue from `line 43` and you don't need to collect and merge the data of the groups again.
 
-The output tidy data set consists of **as many text files in CSV format as there are elements in `pattern`** of the averaged, for each subject and each activity, extracted data. I output thus **two files**, one for the *mean* variables and one for *std* variables. I think this is better for clarity even though the two variables are related with each other. 
+The output tidy data set consists of **as many text files in CSV format as there are elements in `pattern`** of the averaged, for each subject and each activity, extracted data, according to the 5th task of the assignment. I output thus **two files**, one for the *mean* variables and one for *std* variables. I think this is better for clarity even though the two variables are related with each other. 
 
 A larger text file is output as well, containing both *mean* and *std* variables before the average for each subject and each activity was performed. 
 

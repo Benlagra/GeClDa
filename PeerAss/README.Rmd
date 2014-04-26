@@ -40,21 +40,21 @@ We can classify the raw data, i.e. the data contined in the unzipped folder befo
 
        This set contains the raw or processed ( by application of filters, Fourier transform ... etc ) signals measured in the time or the frequency domains during the experiment. There are 33 such quantities  like tBodyAcc-XYZ, tGravityAcc-XYZ, fBodyAccJerk-XYZ .. etc.
        
-       From these signals, another set of variables has been derived using additional transformations (17 in total) integrating out the time or the frequency variables. This second set is labeled by the transformation that was performed on the signals of set 1 and its elements are called the `features`.
+       From these signals, another set of variables has been derived using additional transformations (17 in total) integrating out the time or the frequency variables. This second set is labeled by the transformation that was performed on the signals of set 1 and its elements are called the **features**.
        
 + **Set 2: features**
 
        For exemple, features containing the pattern mean() are all resulting from an average ove time or frequency of signals in set 1. 
        
-So back to what you can do with my code, you can specify a character vector named `pattern` (line 12 of the main script) whose elements are the data you would like to extract. For exemple, `pattern=c('-mean\\(\\)', '-min\\(\\)')` will extract all data in set 2 about the *mean* and the *min* measurements. Similarily, `pattern=c('tBodyAcc')` will extract all the data in set 2 (mean, std, min ... etc) which are related to the signal `tBodyAcc` in set 1.
+So back to what you can do with my code, you can specify a character vector named `patterns` (line 12 of the main script) whose elements are the data you would like to extract. For exemple, `patterns=c('-mean\\(\\)', '-min\\(\\)')` will extract all data in set 2 about the *mean* and the *min* measurements. Similarily, `patterns=c('tBodyAcc')` will extract all the data in set 2 (mean, std, min ... etc) which are related to the signal `tBodyAcc` in set 1.
 
-With the present version of the code, you can not use a `pattern` with mixed data from set 1 and 2. For exemple `pattern = c('-mean\\(\\)', 'tBodyAcc')` will result in an error.
+With the present version of the code, you can not use a `pattern` with mixed data from set 1 and 2. For exemple `patterns = c('-mean\\(\\)', 'tBodyAcc')` will result in an error.
 
-For the purpose of the assignment, I take `pattern = c(''-mean\\(\\)', ''-std\\(\\)')`. But feel free to play with it yourself.
+For the purpose of the assignment, I take `patterns = c(''-mean\\(\\)', ''-std\\(\\)')`. But feel free to play with it yourself.
 
 ### How to use it and what to get from it
 
-If you want to check the tidy data output according to the assignment brief, just run it as it is. If you are curious, you can extract more data than asked in the brief by changing the content of `pattern`. Then, just continue from `line 43` and you don't need to collect and merge the data of the groups again.
+If you want to check the tidy data output according to the assignment brief, just run it as it is. If you are curious, you can extract more data than asked in the brief by changing the content of `patterns`. Then, just continue from `line 43` and you don't need to collect and merge the data of the groups again.
 
 The output tidy data set consists of **as many text files in CSV format as there are elements in `pattern`** of the averaged, for each subject and each activity, extracted data, according to the 5th task of the assignment. I output thus **two files**, one for the *mean* variables and one for *std* variables. I think this is better for clarity even though the two variables are related with each other. 
 
