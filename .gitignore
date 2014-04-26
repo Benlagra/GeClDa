@@ -3,6 +3,7 @@
 Quizzes
 Data
 .DS_Store
+*.Rproj
 .Rproj.user
 .RData
 .Rhistory
