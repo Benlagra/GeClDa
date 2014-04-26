@@ -233,7 +233,7 @@ write.Tidy.Set <- function(data, indices){
        ## function which will be called for each element in the pattern
        filenames <- function(x){
               
-              fileName <- paste('./tidy_data_', gsub('[[:punct:]]', '', x), '')
+              fileName <- paste('./tidy_data_', gsub('[[:punct:]]', '', x), '.txt', '')
               
               ## Select the range of columns to subset from the large extracted data
               index <- which(colnames(indices) == x)
