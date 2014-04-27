@@ -34,7 +34,7 @@ Make sure that:
 
 I wrote the script so that I can do more than what was asked in the assignment. In particular, you can extract more than the mean and the standard deviation measurements by changing a single line. In order to clarify this, and the use of what I call a *`pattern`*, let me briefly remind the structure of the raw data.
 
-We can classify the raw data, i.e. the data contined in the unzipped folder before any analysis, into two sets:
+We can classify the raw data, i.e. the data contained in the unzipped folder before any analysis, into two sets:
 
 + **Set 1 : signals**
 
@@ -56,14 +56,16 @@ For the purpose of the assignment, I take `patterns = c(''-mean\\(\\)', ''-std\\
 
 ### How to use it and what to get from it
 
-## Use
+#### Use
 
 If you want to check the tidy data output according to the assignment brief, just run it as it is. If you are curious, you can extract more data than asked in the brief by changing the content of `patterns`. Then, just continue from `line 43` and you don't need to collect and merge the data of the groups again.
 
 #### Output
-The output tidy data set consists of a **single text file in CSV format** of the averaged, for each subject and each activity, extracted data, according to the 5th task of the assignment. The first 4 columns of the text file correspond to `subject id`, `group`, `activity`, and `observable` data and the remaining columns correspond to as many elements there are in `patterns`. The data are ordered by subject, then by observable so that one can compare the mean and std values for a single observable at different activities. This is, I think, the goal of the study.
+The output tidy data set consists of a **single text file in CSV format** of the averaged, for each subject and each activity, extracted data, according to the 5th task of the assignment. The first 4 columns of the text file correspond to `subject id`, `group`, `activity`, and `signal name` data and the remaining columns correspond to as many elements there are in `patterns`. The data are ordered by subject, then by signal name so that one can compare the mean and std values for a single observable at different activities. This is, I think, the goal of the study.
 
-A larger text file is output as well, containing both *mean* and *std* variables before the average for each subject and each activity was performed. 
+Notice that **I choose to keep the information about the group in which the subject belongs, by adding one column**, so that the data between the two groups in the experiment can still be compared from the final tidy data set.
+
+A larger text file is output as well, containing both *mean* and *std* variables before the average for each subject and each activity was performed. It has 10299 rows, 3 categorical columns for `subject id`, `group`, `activity` and as many multiples of 33 numerical columns as there are elements in `pattern`. For this brief, the number of numerical columns is 66.
 
 
 ## Descriptions and usage of the functions used in `run_analysis.R`
@@ -86,7 +88,7 @@ These functions are :
 
 + `collect.Group.Data(group, directory = './UCI HAR Dataset/')`
        
-       Given a group of subjects name `group` (character) and the path to the data folder (by default `'./UCI HAR Dataset/'`), the function merges the three files, respectively of the subjects, the activities, and the set of variables, contained in the sub-folder named after the group. The output is a `data.frame` which contains 3 categorical variables (Subject_id, Group, and Activity) and 561 numerical variables corresponding to all the features. The number of rows depends on the group. Notice that **I choose to keep the information about the group in which the subject belongs, by adding one column**, so that the data between the two groups in the experiment can still be compared from the final tidy data set.
+       Given a group of subjects name `group` (character) and the path to the data folder (by default `'./UCI HAR Dataset/'`), the function merges the three files, respectively of the subjects, the activities, and the set of variables, contained in the sub-folder named after the group. The output is a `data.frame` which contains 3 categorical variables (Subject_id, Group, and Activity) and 561 numerical variables corresponding to all the features. The number of rows depends on the group. 
        
 + `merge.Groups.Data(directory = './UCI HAR Dataset/')`
 
@@ -128,7 +130,7 @@ These functions are :
 
        This function creates the tidy data set and write it to a single text file in CSV format.
 
-       It first subsets the averaged data according to elements in `patterns`, melt them, then merge them all.
+       It first subsets the averaged data according to elements in `patterns`, melt them along `subject id`, `group`, `activity`, the variable being the signal name, then merge them all again.
        
        Numerical values are rounded to 4 digits for the clarity of the text file.
 
