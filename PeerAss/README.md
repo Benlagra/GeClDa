@@ -17,6 +17,8 @@ The following repository contains:
 
 * `tidy_set.txt`: the final output of the main script according to the requirements of the project.
 
+* `Merged_data.txt`: the larger file from which the tidy set has been derived.
+
 ## Requirements of the project
 
 The main script should do the following
