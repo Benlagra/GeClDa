@@ -122,6 +122,6 @@ So my reasoning was that for each subject, each activity and each signal name, s
 
 Another possibility would have been to output 180 rows and 68 = 2 + 33 + 33 columns. **I preferred the first output for readability and because I think it conforms more to the tidy data principles.** One can read both the mean and std values for a given signal and compare their outcome for different activities easily this way. And this for me is more suitable for the purpose of the study.
 
-Nevertheless, these are two valid representation of the data. In my case, I have two variables, mean and std, for all the signals. and in the second case, there are 66 variables (not independente though), for all features implying the mean and the std.
+Nevertheless, these are two valid representation of the data. In my case, I have two variables, mean and std, for all the signals. In the second case, there are 66 variables (not independente though), for all features involving the mean and the std.
 
 

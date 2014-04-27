@@ -81,14 +81,14 @@ collect.Group.Data <- function(group, directory = './UCI HAR Dataset/'){
        data.Y <- read.table(file.Y, colClasses = 'integer', col.names = 'Activity')
        
        ## Binding all four columns to one unique data frame
-       data_group = cbind(data.Subjects, data.Y, data.X)
+       data_group <- cbind(data.Subjects, data.Y, data.X)
        
-       nrow_group = as.character(nrow(data_group))
-       ncol_group = as.character(ncol(data_group)-2)
+       nrow_group <- as.character(nrow(data_group))
+       ncol_group <- as.character(ncol(data_group)-2)
        
        message(paste('
                      Data frame for group "', group, '" created.
-                     It contains ', nrow_group, ' observations, 3 categorical 
+                     It contains ', nrow_group, ' observations, 2 categorical 
                      variables, and ', ncol_group , ' numerical variables.
                      ======================================', sep=''
        )
@@ -124,7 +124,7 @@ get.Relevent.Indices <- function(features, patterns = character(), directory = '
        
        ## The next two lines are only needed when number of indices for different
        ## patterns do not match. We take then the maximum number of indices. This part of the function is not yet perfectionned
-       max.Length = max(sapply(good, length))
+       max.Length <- max(sapply(good, length))
        temp <- sapply(1:length(good), function(x) length(good[[x]]) <<- max.Length)
        
        good <- data.frame(Reduce(cbind, good), stringsAsFactors = FALSE)
