@@ -9,9 +9,9 @@ The following repository contains:
 
 * `Code_book.md`: the code book for the data. It describes the raw data as well as the tidy data set.
 
-* `functions.R` : a script containing the functions called in the main script. This keeps the main script short and clean.
-
 * `run_analysis.R` : the main script performing the analysis of the provided data according to the project requirements.
+
+* `functions.R` : a script containing the functions called in the main script. This keeps the main script short and clean.
 
 * `README.md`: this is the file you are reading. It contains essentially information about the main script, the functions in `functions.R` and how to use them.
 
