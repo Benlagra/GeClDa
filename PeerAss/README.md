@@ -9,11 +9,11 @@ The following repository contains:
 
 * `Code_book.md`: the code book for the data. It describes the raw data as well as the tidy data set.
 
-* `README.md`: this is the file you are reading. It contains essentially information about the main script, the functions in `functions.R` and how to use them.
-
 * `functions.R` : a script containing the functions called in the main script. This keeps the main script short and clean.
 
 * `run_analysis.R` : the main script performing the analysis of the provided data according to the project requirements.
+
+* `README.md`: this is the file you are reading. It contains essentially information about the main script, the functions in `functions.R` and how to use them.
 
 * `tidy_set.txt`: the final output of the main script according to the requirements of the project.
 
@@ -68,11 +68,9 @@ For the purpose of the assignment, I take `patterns = c(''-mean\\(\\)', ''-std\\
 If you want to check the tidy data output according to the assignment brief, just run it as it is. If you are curious, you can extract more data than asked in the brief by changing the content of `patterns`. Then, just continue from `line 43` and you don't need to collect and merge the data of the groups again.
 
 #### Output
-The output tidy data set consists of a **single text file in CSV format** of the averaged, for each subject and each activity, extracted data, according to the 5th task of the assignment. The first 4 columns of the text file correspond to `subject id`, `group`, `activity`, and `signal name` data and the remaining columns correspond to as many elements there are in `patterns`. The data are ordered by subject, then by signal name so that one can compare the mean and std values for a single observable at different activities. This is, I think, the goal of the study.
+The output tidy data set consists of a **single text file in CSV format** of the averaged, for each subject and each activity, extracted data, according to the 5th task of the assignment. The first 3 columns of the text file correspond to `subject id`, `activity`, and `signal name` data and the remaining columns correspond to as many elements there are in `patterns`. The data are ordered by subject, then by signal name so that one can compare the mean and std values for a single observable at different activities. This is, I think, the goal of the study.
 
-Notice that **I choose to keep the information about the group in which the subject belongs, by adding one column**, so that the data between the two groups in the experiment can still be compared from the final tidy data set.
-
-A larger text file is output as well, containing both *mean* and *std* variables before the average for each subject and each activity was performed. It has 10299 rows, 3 categorical columns for `subject id`, `group`, `activity` and as many multiples of 33 numerical columns as there are elements in `pattern`. For this brief, the number of numerical columns is 66.
+A larger text file is output as well, containing both *mean* and *std* variables before the average for each subject and each activity was performed. It has 10299 rows, 2 categorical columns for `subject id`, `activity` and as many multiples of 33 numerical columns as there are elements in `pattern`. For this brief, the number of numerical columns is 66.
 
 
 ## Descriptions and usage of the functions used in `run_analysis.R`
@@ -95,7 +93,7 @@ These functions are :
 
 + `collect.Group.Data(group, directory = './UCI HAR Dataset/')`
        
-       Given a group of subjects name `group` (character) and the path to the data folder (by default `'./UCI HAR Dataset/'`), the function merges the three files, respectively of the subjects, the activities, and the set of variables, contained in the sub-folder named after the group. The output is a `data.frame` which contains 3 categorical variables (Subject_id, Group, and Activity) and 561 numerical variables corresponding to all the features. The number of rows depends on the group. 
+       Given a group of subjects name `group` (character) and the path to the data folder (by default `'./UCI HAR Dataset/'`), the function merges the three files, respectively of the subjects, the activities, and the set of variables, contained in the sub-folder named after the group. The output is a `data.frame` which contains 2 categorical variables (Subject_id, and Activity) and 561 numerical variables corresponding to all the features. The number of rows depends on the group. 
        
 + `merge.Groups.Data(directory = './UCI HAR Dataset/')`
 
@@ -115,7 +113,7 @@ These functions are :
 
        This function addresses the 2nd task of the brief by choosing `paterns <- c('-min\\(\\)', '-std\\(\\)')` in the previous function.
 
-       Given the `data.frame` of indices, obtained by using the last function or entered by the user, the function extracts the relevent columns from the large `data.frame` of the merged data and outputs the corresponding reduced `data.frame`. This containss 3 categorical columns (Subject_id, Group, Activity) and 33 numerical columns for each pattern looked for in the previous function. Eg: if `patterns=c('-mean\\(\\)', '-std\\(\\)')`, the data frame output will contain 69 = 3 + 33 + 33 columns.
+       Given the `data.frame` of indices, obtained by using the last function or entered by the user, the function extracts the relevent columns from the large `data.frame` of the merged data and outputs the corresponding reduced `data.frame`. This containss 3 categorical columns (Subject_id, Group, Activity) and 33 numerical columns for each pattern looked for in the previous function. Eg: if `patterns=c('-mean\\(\\)', '-std\\(\\)')`, the data frame output will contain 68 = 2 + 33 + 33 columns.
        
        
        Notice that if you want to enter the indices yourself without using the previous function, `indices` should be a `data.frame` with at least a character column for features' names and an integer column for indices. The function returns only the data for which the index is not `NA`.
@@ -127,7 +125,7 @@ These functions are :
 
        Given the `data` obtained from the function `extract()`, the data.frame `data_activity` obtained from `get.Activity.Names()` and the data.frame `indices` corresponding to the relevent data we are looking for, this function replaces the integer values of the activities and labels all the columns data with descriptive names.  
        
-+ `subject.activity.means(data)`
++ `subject.activity.average(data)`
 
        This function addresses the 1st part of the 5th task of the brief.
        

@@ -80,14 +80,11 @@ collect.Group.Data <- function(group, directory = './UCI HAR Dataset/'){
        
        data.Y <- read.table(file.Y, colClasses = 'integer', col.names = 'Activity')
        
-       ## Creating a column to keep track of the group name
-       group.Name = rep(group, length(data.Subjects[,1]))
-       
        ## Binding all four columns to one unique data frame
-       data_group = cbind(data.Subjects, Group = group.Name, data.Y, data.X)
+       data_group = cbind(data.Subjects, data.Y, data.X)
        
        nrow_group = as.character(nrow(data_group))
-       ncol_group = as.character(ncol(data_group)-3)
+       ncol_group = as.character(ncol(data_group)-2)
        
        message(paste('
                      Data frame for group "', group, '" created.
@@ -164,16 +161,16 @@ extract <- function(data, indices){
        ## the features we are looking for, and the remaining ones are indices
        ## in the features list for the matched patterns we are looking for.
        
-       extracted.Data <- data[, c(1,2,3)]
+       extracted.Data <- data[, c(1,2)]
        
        if (ncol(indices) >2){
               
-              temp <- sapply(colnames(indices[,2:ncol(indices)]), function(x) extracted.Data <<- cbind(extracted.Data, data[, 3+indices[!is.na(indices[,x]),x]]))
+              temp <- sapply(colnames(indices[,2:ncol(indices)]), function(x) extracted.Data <<- cbind(extracted.Data, data[, 2+indices[!is.na(indices[,x]),x]]))
        }
        else{
               # Only possibility for ncol(indices) is 1 since if it is zero
               # the program stops because the pattern looked for matches no feature.
-              extracted.Data <- cbind(extracted.Data, data[, 3+indices[!is.na(indices[,2]),2]])     
+              extracted.Data <- cbind(extracted.Data, data[, 2+indices[!is.na(indices[,2]),2]])     
        }
        
        pattern <- gsub('[[:punct:]]', '', c(names(indices)[2:length(indices)]))
@@ -189,20 +186,20 @@ extract <- function(data, indices){
 label.All.Variables <- function(data, data_activity, indices){
        
        ## Removing underscore from activity names in the activity column of the data
-       col.Labels <- str_replace(data_activity[data[,3], 2], '_', ' ')
+       col.Labels <- str_replace(data_activity[data[,2], 2], '_', ' ')
        
        ## Reconstruct the data frame
-       data <- cbind(data[,c(1,2)], Activity = col.Labels, data[,4:ncol(data)])
+       data <- cbind(data[,c(1)], Activity = col.Labels, data[,3:ncol(data)])
        
        
-       str.names <-c('subject id', 'group', 'activity')
+       str.names <-c('subject id', 'activity')
        
        
        temp <-sapply(1:(length(indices)-1), function(x) str.names <<- c(str.names, paste(indices[,1], gsub('[[:punct:]]', '', names(indices)[x+1]), sep='-')))
        
        colnames(data) <- str.names
        
-       data <- data[order(data[,1], data[,3]),]
+       data <- data[order(data[,1], data[,2]),]
        
        message('\n
                Activities described by explicit names and columns labeled.
@@ -216,7 +213,7 @@ label.All.Variables <- function(data, data_activity, indices){
 
 subject.activity.average <- function(data){
        
-       dataa <- aggregate(data[,4:length(data)], by=list('subject id'=data[,1], group = data[,2], activity = data[,3]), mean)
+       dataa <- aggregate(data[,3:length(data)], by=list('subject id'=data[,1], activity = data[,2]), mean)
        
        dataa <- dataa[order(dataa[,1]),]
        
@@ -237,24 +234,24 @@ write.Tidy.Set <- function(data, indices){
               
               ## Select the range of columns to subset from the large extracted data
               index <- which(colnames(indices) == x)
-              range <- 4+ seq((index-2)*nrow(indices),(index-1)*nrow(indices)-1)
+              range <- 3+ seq((index-2)*nrow(indices),(index-1)*nrow(indices)-1)
               
               ## Clean column names from punctuation and pattern names
               vec <- as.character(gsub(paste('-',gsub('[[:punct:]]', '', x), sep=''), '', colnames(data[, c(range)])))
               vec <- gsub('[[:punct:]]', ' ', vec)
               
               ## Subset the relevent data
-              dataa <- data[, c(1, 2, 3, range)]
+              dataa <- data[, c(1, 2, range)]
               
               ## Round the numbers up to 4 digits
-              dataa[,4:length(dataa)] <- round(dataa[, 4:length(dataa)], digits = 4)
+              dataa[,3:length(dataa)] <- round(dataa[, 3:length(dataa)], digits = 4)
               
               # Rename the columns
-              colnames(dataa) <- c('subject id', 'group', 'activity', vec)
+              colnames(dataa) <- c('subject id', 'activity', vec)
               
-              meltdata <- melt(dataa, id=c('subject id', 'group', 'activity'))
+              meltdata <- melt(dataa, id=c('subject id', 'activity'))
               
-              names(meltdata)[4:5] <- c('signal name', gsub('[[:punct:]]', '', x))
+              names(meltdata)[3:4] <- c('signal name', gsub('[[:punct:]]', '', x))
               
               meltdata
               
@@ -270,7 +267,7 @@ write.Tidy.Set <- function(data, indices){
        }
        
               ## Ordering according to subjects then to observables
-              melt.merge <- melt.merge[order(melt.merge[,1], melt.merge[,4]),
+              melt.merge <- melt.merge[order(melt.merge[,1], melt.merge[,3]),
                                        ]
               write.csv(melt.merge, './tidy_set.txt', row.names=F)
        

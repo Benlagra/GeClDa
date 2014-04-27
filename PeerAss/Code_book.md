@@ -75,58 +75,48 @@ It has been obtained using the script `run_analysis.R`, which should be in the s
 4. Appropriately labels the data set with descriptive activity names. 
 5. Creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
-The final output contains **6 columns**:
+The final output contains **5 columns**:
 
-+ **subject id** : subject identifier as an integer
-+ **group** : group to which the subject belongs as a character 'train' or 'test'
-+ **activity** : labeled names of the activities as character
-+ **signal** : labeled names of the signals as character. Their names have been kept as abbreviated in the raw data because they would be too long otherwise. Cases have been retained as well for easing readability.
-+ **mean** : mean values of the signals as numerical values in units of the signals
-+ **std** : standard deviation values of the signals as numerical values in units of the signals.
++ **(01) subject id** : subject identifier as an integer
++ **(02) activity** : labeled names of the activities as character
++ **(03) signal** : labeled names of the signals as character. Their names have been kept as abbreviated in the raw data because they would be too long otherwise. Cases have been retained as well for easing readability.
++ **(04) mean** : mean values of the signals as numerical values in units of the signals
++ **(05) std** : standard deviation values of the signals as numerical values in units of the signals.
        
 and **5940 rows** corresponding to 33 signals for 6 activities and 30 subjects: 5940 = 33x6x30.
 
 Numerical values have been rounded up to 4 digits.
 
-Notice that I chose to keep the information on the group to which the subject belongs by adding an additional column `group`. Strictly speaking, this should not be in the tidy data set.
+Notice that the information on the group to which the subject belongs has been lost during step 2 above. One could in principle add a group column but, strictly speaking, this should not be in the tidy data set.
 
 So the final output looks like this:
 
 
 ```
-##   subject id group           activity signal name    mean     std
-## 1          1 train             laying  tBodyAcc X  0.2216 -0.9281
-## 2          1 train            sitting  tBodyAcc X  0.2612 -0.9772
-## 3          1 train           standing  tBodyAcc X  0.2789 -0.9958
-## 4          1 train            walking  tBodyAcc X  0.2773 -0.2837
-## 5          1 train walking downstairs  tBodyAcc X  0.2892  0.0300
-## 6          1 train   walking upstairs  tBodyAcc X  0.2555 -0.3547
-## 7          1 train             laying  tBodyAcc Y -0.0405 -0.8368
-## 8          1 train            sitting  tBodyAcc Y -0.0013 -0.9226
+##   subject id           activity signal name    mean     std
+## 1          1             laying  tBodyAcc X  0.2216 -0.9281
+## 2          1            sitting  tBodyAcc X  0.2612 -0.9772
+## 3          1           standing  tBodyAcc X  0.2789 -0.9958
+## 4          1            walking  tBodyAcc X  0.2773 -0.2837
+## 5          1 walking downstairs  tBodyAcc X  0.2892  0.0300
+## 6          1   walking upstairs  tBodyAcc X  0.2555 -0.3547
+## 7          1             laying  tBodyAcc Y -0.0405 -0.8368
+## 8          1            sitting  tBodyAcc Y -0.0013 -0.9226
 ```
 
 ```
-##      subject id group           activity          signal name    mean
-## 5933         30 train walking downstairs     fBodyBodyGyroMag -0.3568
-## 5934         30 train   walking upstairs     fBodyBodyGyroMag -0.4492
-## 5935         30 train             laying fBodyBodyGyroJerkMag -0.9778
-## 5936         30 train            sitting fBodyBodyGyroJerkMag -0.9918
-## 5937         30 train           standing fBodyBodyGyroJerkMag -0.9592
-## 5938         30 train            walking fBodyBodyGyroJerkMag -0.5476
-## 5939         30 train walking downstairs fBodyBodyGyroJerkMag -0.6176
-## 5940         30 train   walking upstairs fBodyBodyGyroJerkMag -0.7740
-##          std
-## 5933 -0.2524
-## 5934 -0.1515
-## 5935 -0.9755
-## 5936 -0.9909
-## 5937 -0.9550
-## 5938 -0.5786
-## 5939 -0.6455
-## 5940 -0.7913
+##      subject id           activity          signal name    mean     std
+## 5933         30 walking downstairs     fBodyBodyGyroMag -0.3568 -0.2524
+## 5934         30   walking upstairs     fBodyBodyGyroMag -0.4492 -0.1515
+## 5935         30             laying fBodyBodyGyroJerkMag -0.9778 -0.9755
+## 5936         30            sitting fBodyBodyGyroJerkMag -0.9918 -0.9909
+## 5937         30           standing fBodyBodyGyroJerkMag -0.9592 -0.9550
+## 5938         30            walking fBodyBodyGyroJerkMag -0.5476 -0.5786
+## 5939         30 walking downstairs fBodyBodyGyroJerkMag -0.6176 -0.6455
+## 5940         30   walking upstairs fBodyBodyGyroJerkMag -0.7740 -0.7913
 ```
 
 
-Another possibility would have been to output 180 rows and 69 = 3 + 33 + 33 columns. **I preferred the first output for readability and because I think it conforms more to the tidy data principles.** One can read both the mean and std values for a given signal and compare their outcome for different activities easily this way.
+Another possibility would have been to output 180 rows and 68 = 2 + 33 + 33 columns. **I preferred the first output for readability and because I think it conforms more to the tidy data principles.** One can read both the mean and std values for a given signal and compare their outcome for different activities easily this way.
 
 
