@@ -65,12 +65,12 @@ For the purpose of the assignment, I take `patterns = c(''-mean\\(\\)', ''-std\\
 
 #### Use
 
-If you want to check the tidy data output according to the assignment brief, just run it as it is. If you are curious, you can extract more data than asked in the brief by changing the content of `patterns`. Then, just continue from `line 43` and you don't need to collect and merge the data of the groups again.
+If you want to check the tidy data output according to the assignment brief, just run it as it is. If you are curious, you can extract more data than asked in the brief by changing the content of `patterns`. Then, just continue from `line 43` and you don't need to collect and merge the data of the groups again. I have given different names to the various data frames generated through the execution of the script so that you don't need to run multiple lines if you want to change something.
 
 #### Output
-The output tidy data set consists of a **single text file in CSV format** of the averaged, for each subject and each activity, extracted data, according to the 5th task of the assignment. The first 3 columns of the text file correspond to `subject id`, `activity`, and `signal name` data and the remaining columns correspond to as many elements there are in `patterns`. The data are ordered by subject, then by signal name so that one can compare the mean and std values for a single observable at different activities. This is, I think, the goal of the study.
+The output tidy data set consists of a **single text file in CSV format** of the averaged, for each subject and each activity, extracted data, according to the 5th task of the assignment. The first 3 columns of the text file correspond to `subject id`, `activity`, and `signal name` data and the remaining columns correspond to as many elements as there are in `patterns`. The data are ordered by subject, then by signal name so that one can compare the mean and std values for a single signal name at different activities. This is, I think, the goal of the study.
 
-A larger text file is output as well, containing both *mean* and *std* variables before the average for each subject and each activity was performed. It has 10299 rows, 2 categorical columns for `subject id`, `activity` and as many multiples of 33 numerical columns as there are elements in `pattern`. For this brief, the number of numerical columns is 66.
+A larger text file is output as well, containing both *mean* and *std* variables before the average for each subject and each activity was performed. It has 10299 rows, 2 categorical columns for `subject id`, `activity` and as many multiples of 33 numerical columns as there are elements in `pattern`. For this brief, the number of numerical columns is 66. This is the file from which the tidy set has been generated.
 
 
 ## Descriptions and usage of the functions used in `run_analysis.R`

@@ -24,7 +24,7 @@ The unzipped folder (UCI HAR Dataset) contains two directories, one for each of 
 
 + **activity_label.txt**: contains the integer code used for each activity.
        
-+ **features_info.txt**: contains the integer code for the sigals measured during the experiment and the variables derived from those signals.
++ **features_info.txt**: contains information on the variables derived from the signals measured during the experiment.
        
 + **features.txt**: contains the integer code for each of the variables defined in the previous file.
        
@@ -38,6 +38,7 @@ Each group folder contains a folder of the raw *Inertial signals* and 3 files:
 
 + A file for all 561 features (see below) obtained from the experiment
        
+Data in the `Inertial signals` will not be considered in the following. These are the *true* raw data from wich pre-processed signals or features have been derived. Since we don't have enough information about the filters used on this signals, we can not check wether the features data are correctly derived. We will assume that this is the case here. 
 
 We can classify the raw data, i.e. the data contained in the unzipped folder before any analysis, into two sets:
 
@@ -55,7 +56,7 @@ I consider an **observational unit** as formed of a single subject and a single 
        
 #### Doing some maths
 
-+ There are 2947 rows in the data files of the test group and 7352 rows the training group. Given that we have only 30 subjects and 6 different activities, this means that the same activity has been measured for the same person multiple times. E.g.: subject nº 01 did activity nº01 (walking) 95 times.
++ There are 2947 rows in the data files of the test group and 7352 rows the training group, summing up to 10299 total observations. Given that we have only 30 subjects and 6 different activities, this means that the same activity has been investigated for the same person multiple times. E.g.: subject nº 01 did activity nº01 (walking) 95 times.
 
 + There are 33 different signals and 17 different transformations on them. This gives indeed 561 features, which is the number of columns in the files of features X_'name of group'.txt
 
@@ -75,11 +76,13 @@ It has been obtained using the script `run_analysis.R`, which should be in the s
 4. Appropriately labels the data set with descriptive activity names. 
 5. Creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
+In order to achieve this, I collect each of the files containing the data for each group, then bind the two resulting data frames. I look then for the corresponding pattern for the mean and the standard deviation in the features names and get the relevent inidices in the bind data frame. At this stage, mean and std measurements can be extracted. I then read the activities names and apply them the activity column of the extracted data. Then I tidy the large data set according to the tidy data principles.
+
 The final output contains **5 columns**:
 
 + **(01) subject id** : subject identifier as an integer
 + **(02) activity** : labeled names of the activities as character
-+ **(03) signal** : labeled names of the signals as character. Their names have been kept as abbreviated in the raw data because they would be too long otherwise. Cases have been retained as well for easing readability.
++ **(03) signal name** : labeled names of the signals as character. Their names have been kept as abbreviated in the raw data because they would be too long otherwise. Cases have been retained as well for easing readability.
 + **(04) mean** : mean values of the signals as numerical values in units of the signals
 + **(05) std** : standard deviation values of the signals as numerical values in units of the signals.
        
@@ -89,7 +92,7 @@ Numerical values have been rounded up to 4 digits.
 
 Notice that the information on the group to which the subject belongs has been lost during step 2 above. One could in principle add a group column but, strictly speaking, this should not be in the tidy data set.
 
-So the final output looks like this:
+So my reasoning was that for each subject, each activity and each signal name, show the mean and the standard deviation of the considered signal. Both mean and std are related to a single signal name. Thus, the final output looks like this:
 
 
 ```
@@ -117,6 +120,6 @@ So the final output looks like this:
 ```
 
 
-Another possibility would have been to output 180 rows and 68 = 2 + 33 + 33 columns. **I preferred the first output for readability and because I think it conforms more to the tidy data principles.** One can read both the mean and std values for a given signal and compare their outcome for different activities easily this way.
+Another possibility would have been to output 180 rows and 68 = 2 + 33 + 33 columns. **I preferred the first output for readability and because I think it conforms more to the tidy data principles.** One can read both the mean and std values for a given signal and compare their outcome for different activities easily this way. And this for me is more suitable for the purpose of the study.
 
 

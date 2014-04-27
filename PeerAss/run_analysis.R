@@ -58,7 +58,7 @@ write.csv(data.Extracted.Labeled, './Merged_data.txt', row.names = FALSE)
 
 # 05. Create tidy data set with the average of each variable for each activity and ## each subject
 
-data.Extracted.Averaged <- subject.activity.average(data.Extracted.Labeled)
+data.Extracted.Averaged <- subject.activity.Average(data.Extracted.Labeled)
 
 ## create tidy set and export it to a text file in CSV format
 write.Tidy.Set(data.Extracted.Averaged, indices)

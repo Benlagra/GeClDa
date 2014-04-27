@@ -211,7 +211,7 @@ label.All.Variables <- function(data, data_activity, indices){
 
 ###################################################################################
 
-subject.activity.average <- function(data){
+subject.activity.Average <- function(data){
        
        dataa <- aggregate(data[,3:length(data)], by=list('subject id'=data[,1], activity = data[,2]), mean)
        
