@@ -9,7 +9,7 @@ data.Directory = get.Data.Directory(directory)
 
 ## character vector of the patterns we are looking for in the feature list
 ## For instance, we are looking for '-mean()' and '-std()'
-patterns = c("-mean\\(\\)", "-std\\(\\)")
+patterns = c('-mean\\(\\)', '-std\\(\\)')
 
 ## Read the feature list from the correct file
 features = get.Features.List(data.Directory)
@@ -60,7 +60,6 @@ write.csv(data.Extracted.Labeled, './Merged_data.txt', row.names = FALSE)
 
 data.Extracted.Averaged <- subject.activity.average(data.Extracted.Labeled)
 
-## export mean and std data in two different files
-
+## create tidy set and export it to a text file in CSV format
 write.Tidy.Set(data.Extracted.Averaged, indices)
 

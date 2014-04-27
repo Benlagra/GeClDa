@@ -1,12 +1,13 @@
 
 ## This file contains the main functions used in the run_script code.
-## For detailed description of the functions, please see the README.md file
+## For detailed description of the functions, please refer to the README.md file
 
-library(stringr)
+library('stringr')
 
 ###################################################################################
 
 get.Data.Directory <- function(directory = '.'){
+       
        data.Directory <- paste(directory, '/UCI HAR Dataset/', sep = '')
        if (!file.exists(data.Directory)){
               stop('\n
@@ -20,7 +21,7 @@ get.Data.Directory <- function(directory = '.'){
        }
        
        data.Directory
-}
+       }
 
 ###################################################################################
 
@@ -69,11 +70,11 @@ collect.Group.Data <- function(group, directory = './UCI HAR Dataset/'){
        message(paste('
                      Reading the data for group "', group, '" 
                      ==================================', sep=''
-                     )
-              )
+       )
+       )
        
        data.Subjects <- read.table(file.Subjects, colClasses = 'integer',
-                                                 col.names = 'Subject_id' )
+                                   col.names = 'Subject_id' )
        
        data.X <- read.table(file.X, colClasses = 'numeric')
        
@@ -93,8 +94,8 @@ collect.Group.Data <- function(group, directory = './UCI HAR Dataset/'){
                      It contains ', nrow_group, ' observations, 3 categorical 
                      variables, and ', ncol_group , ' numerical variables.
                      ======================================', sep=''
-                     )
-              )
+       )
+       )
        
        data_group
        
@@ -104,9 +105,11 @@ collect.Group.Data <- function(group, directory = './UCI HAR Dataset/'){
 
 merge.Groups.Data <- function(directory= './UCI HAR Dataset/'){
        
+       ## First calls previous function for each group
        data_test <- collect.Group.Data('test', directory)
        data_train <- collect.Group.Data('train', directory)
        
+       ## Then bind them by rows. No need for merge function here.
        data <- rbind(data_test, data_train)
        
        message('\n
@@ -118,14 +121,12 @@ merge.Groups.Data <- function(directory= './UCI HAR Dataset/'){
 
 ##################################################################################
 
-
-
 get.Relevent.Indices <- function(features, patterns = character(), directory = './UCI HAR Dataset/'){
        
        good <- lapply(patterns, grep, features$feature)
        
        ## The next two lines are only needed when number of indices for different
-       ## patterns do not match. We take then the maximum number of indices.
+       ## patterns do not match. We take then the maximum number of indices. This part of the function is not yet perfectionned
        max.Length = max(sapply(good, length))
        temp <- sapply(1:length(good), function(x) length(good[[x]]) <<- max.Length)
        
@@ -135,15 +136,16 @@ get.Relevent.Indices <- function(features, patterns = character(), directory = '
        if (ncol(good) < length(patterns) | nrow(good) == 0){ 
               pattern = patterns[ncol(good) + 1]
               stop(paste('\n
-                   The pattern "', pattern, '"" matched no feature in the list !
-                   =========================================================', 
-                                                               sep = ''))
+                         The pattern "', pattern, '"" matched no feature in the list !
+                         =========================================================', 
+                         sep = ''))
        }
        
        message('\n
                The patterns you entered matched some features in the list.
                ===========================================================')
        
+       ## Otherwise, continue
        feat_id <- str_replace(features[good[,1], 2], patterns[1], '')
        
        feat_id <- data.frame(feat_id, good, stringsAsFactors = FALSE)
@@ -151,7 +153,7 @@ get.Relevent.Indices <- function(features, patterns = character(), directory = '
        colnames(feat_id) <- c('Feature', patterns)
        
        feat_id
-             
+       
 }
 
 ###################################################################################
@@ -165,8 +167,8 @@ extract <- function(data, indices){
        extracted.Data <- data[, c(1,2,3)]
        
        if (ncol(indices) >2){
-       
-       temp <- sapply(colnames(indices[,2:ncol(indices)]), function(x) extracted.Data <<- cbind(extracted.Data, data[, 3+indices[!is.na(indices[,x]),x]]))
+              
+              temp <- sapply(colnames(indices[,2:ncol(indices)]), function(x) extracted.Data <<- cbind(extracted.Data, data[, 3+indices[!is.na(indices[,x]),x]]))
        }
        else{
               # Only possibility for ncol(indices) is 1 since if it is zero
@@ -182,8 +184,7 @@ extract <- function(data, indices){
        extracted.Data
 }
 
-
-###############################################################
+####################################################################################
 
 label.All.Variables <- function(data, data_activity, indices){
        
@@ -231,32 +232,50 @@ subject.activity.average <- function(data){
 write.Tidy.Set <- function(data, indices){
        
        ## function which will be called for each element in the pattern
-       filenames <- function(x){
+       melting <- function(x){
               
-              fileName <- paste('./tidy_data_', gsub('[[:punct:]]', '', x), '.txt', '')
               
               ## Select the range of columns to subset from the large extracted data
               index <- which(colnames(indices) == x)
               range <- 4+ seq((index-2)*nrow(indices),(index-1)*nrow(indices)-1)
               
+              ## Clean column names from punctuation and pattern names
               vec <- as.character(gsub(paste('-',gsub('[[:punct:]]', '', x), sep=''), '', colnames(data[, c(range)])))
-              vec <- gsub('\\(\\)', '', vec)
+              vec <- gsub('[[:punct:]]', ' ', vec)
+              
+              ## Subset the relevent data
               dataa <- data[, c(1, 2, 3, range)]
+              
+              ## Round the numbers up to 4 digits
               dataa[,4:length(dataa)] <- round(dataa[, 4:length(dataa)], digits = 4)
+              
+              # Rename the columns
               colnames(dataa) <- c('subject id', 'group', 'activity', vec)
-              write.csv(dataa, fileName, row.names = FALSE)
+              
+              meltdata <- melt(dataa, id=c('subject id', 'group', 'activity'))
+              
+              names(meltdata)[4:5] <- c('signal name', gsub('[[:punct:]]', '', x))
+              
+              meltdata
               
        }
        
+       melt.merge <-  melting(names(indices)[2])
+       
+       
        if(length(indices) > 2){
-              temp <- lapply(names(indices)[2:ncol(indices)], filenames)
-       }
-       else{
-              temp <- lapply(names(indices)[2], filenames)
+              temp <- lapply(names(indices)[3:ncol(indices)], function(x){
+                     melt.merge <<- merge(melt.merge, melting(x), sort=F)})
+              
        }
        
-       message(paste('\n
-               Tidy data set output in ', as.character(length(indices)-1), ' separate file(s).
-               ============================================', sep=''))
-                     
+              ## Ordering according to subjects then to observables
+              melt.merge <- melt.merge[order(melt.merge[,1], melt.merge[,4]),
+                                       ]
+              write.csv(melt.merge, './tidy_set.txt', row.names=F)
+       
+       message('\n
+               Tidy data set output in the working directory.
+               ==============================================')
+       
 }
