@@ -34,7 +34,7 @@ The main script should do the following
 Make sure that:
 
 + `functions.R` and `run_script.R` stay in the same folder.
-+ The package [`stringr`](http://cran.r-project.org/package=stringr) is installed. A call to this package is included in `functions.R`.
++ The packages [`stringr`](http://cran.r-project.org/package=stringr) and [`reshape2`](http://cran.r-project.org/web/packages/reshape2/index.html) are installed. A call to this package is included in `functions.R`.
 + Your working directory *contains* the **unzipped data folder** named 'UCI HAR Dataset', although I allow the user of the code to specify the location of that folder (`line 7` of the main script) if it is not in the working directory..
 
 ## The main script `run_analysis.R`

@@ -3,6 +3,7 @@
 ## For detailed description of the functions, please refer to the README.md file
 
 library('stringr')
+library('reshape2')
 
 ###################################################################################
 
