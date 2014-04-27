@@ -9,6 +9,7 @@ The following repository contains:
 * `functions.R` : a script containing the functions called in the main script. This keeps the main script short and clean.
 * `Code_book.md`: the code book for the data. It describes the raw data as well as the tidy data set.
 * `README.md`: this is the file you are reading. It contains essentially information about the main script, the functions in `functions.R` and how to use them.
+* `UCI HAR Dataset`: this is the unzipped data folder obtained [from here](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip).
 
 ## Requirements of the projects
 
