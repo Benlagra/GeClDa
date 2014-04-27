@@ -11,7 +11,9 @@ The following repository contains:
 * `README.md`: this is the file you are reading. It contains essentially information about the main script, the functions in `functions.R` and how to use them.
 * `UCI HAR Dataset`: this is the unzipped data folder obtained [from here](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip).
 
-## Requirements of the projects
+* `tidy_set.txt`: the final output of the main script according to the requirements of the project.
+
+## Requirements of the project
 
 The main script should do the following
 
